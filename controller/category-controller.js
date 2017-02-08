@@ -47,7 +47,7 @@ class CategoryController {
       if(err) {
         return next();
       }
-      res.status(200).send(`categories/${doc._id}`)
+      return res.sendStatus(204);
     })
   };
 
