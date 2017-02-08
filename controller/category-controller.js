@@ -1,14 +1,24 @@
 const Category = require('../model/category');
+const async = require('async');
 
 class CategoryController {
 
   getAll(req, res, next){
-    Category.find({}, (err, docs)=> {
-      if(err) {
-        return next();
+    async.series({
+      totalCount: (done) => {
+          Category.count(done);
+      },
+      categories: (done) => {
+        Category.find({}, done);
       }
-      res.status(200).send(docs);
+    }, (err, result) => {
+      if( err ) {
+        return next(err);
+      }
+      return res.status(200).send(result);
     });
+
+
   };
   getOne(req, res, next){
     Category.findById(req.params.id)
@@ -17,7 +27,7 @@ class CategoryController {
           return res.sendStatus(404);
         }
         if(err) {
-          return next();
+          return next(err);
         }
         res.status(200).send(doc);
       })
@@ -25,7 +35,7 @@ class CategoryController {
   delete(req, res, next){
     Category.findByIdAndRemove(req.params.id, (err, doc)=> {
       if(err) {
-        return next();
+        return next(err);
       }
       if(!doc) {
         return res.statusCode(404);
@@ -36,7 +46,7 @@ class CategoryController {
   create(req, res, next){
     new Category(req.body).save((err, doc)=> {
         if(err) {
-          return next();
+          return next(err);
         }
         res.status(201).send(`categories/${doc._id}`)
       }
@@ -45,7 +55,7 @@ class CategoryController {
   update(req, res, next){
     Category.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
       if(err) {
-        return next();
+        return next(err);
       }
       return res.sendStatus(204);
     })
