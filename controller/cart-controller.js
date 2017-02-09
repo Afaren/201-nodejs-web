@@ -3,6 +3,7 @@
  */
 const Cart = require('../model/cart');
 const async = require('async');
+const constants = require('../mixin/constans');
 
 class CartController {
   getAll(req, res, next) {
@@ -18,7 +19,7 @@ class CartController {
       if (err) {
         return next(err);
       }
-      return res.status(200).send(result);
+      return res.status(constants.httpCode.OK).send(result);
     });
   };
 
@@ -28,9 +29,9 @@ class CartController {
         return next(err);
       }
       if (!doc) {
-        return res.sendStatus(404);
+        return res.sendStatus(constants.httpCode.NO_FOUND);
       }
-      res.status(200).send(doc);
+      res.status(constants.httpCode.OK).send(doc);
     })
   };
 
@@ -39,7 +40,7 @@ class CartController {
       if (err) {
         return next(err);
       }
-      return res.status(201).send(`carts/${doc._id}`);
+      return res.status(constants.httpCode.CREATED).send(`carts/${doc._id}`);
     });
   };
 
@@ -49,9 +50,9 @@ class CartController {
         return next(err);
       }
       if (!doc) {
-        return res.sendStatus(404);
+        return res.sendStatus(constants.httpCode.NO_FOUND);
       }
-      return res.sendStatus(204);
+      return res.sendStatus(constants.httpCode.NO_CONTENT);
     })
   };
 
@@ -61,9 +62,9 @@ class CartController {
         return next(err);
       }
       if (!doc) {
-        return res.sendStatus(404);
+        return res.sendStatus(constants.httpCode.NO_FOUND);
       }
-      return res.sendStatus(200);
+      return res.sendStatus(constants.httpCode.OK);
     })
   };
 

@@ -1,5 +1,6 @@
 const Item = require('../model/item');
 const async = require('async');
+const constants = require('../mixin/constants');
 
 class ItemController {
   getAll(req, res, next) {
@@ -16,7 +17,7 @@ class ItemController {
       if(err) {
         return next(err);
       }
-      return res.status(200).send(result);
+      return res.status(constants.httpCode.OK).send(result);
       }
     );
   };
@@ -26,12 +27,12 @@ class ItemController {
       .populate('categoryId')
       .exec((err, doc) => {
         if (!doc) {
-          res.sendStatus(404);
+          res.sendStatus(constants.httpCode.NO_FOUND);
         }
         if (err) {
           return next(err)
         }
-        res.status(200).send(doc)
+        res.status(constants.httpCode.OK).send(doc)
 
       })
   }
@@ -43,10 +44,10 @@ class ItemController {
         return next(err);
       }
       if (!doc) {
-        return res.sendStatus(404);
+        return res.sendStatus(constants.httpCode.NO_FOUND);
       }
 
-      res.sendStatus(204);
+      res.sendStatus(constants.httpCode.NO_CONTENT);
     });
   }
 
@@ -55,7 +56,7 @@ class ItemController {
       if (err) {
         next(err);
       }
-      res.status(201).send(`items/${doc._id}`);
+      res.status(constants.httpCode.CREATED).send(`items/${doc._id}`);
     })
   }
 
@@ -64,7 +65,7 @@ class ItemController {
       if (err) {
         return next(err);
       }
-      return res.sendStatus(204);
+      return res.sendStatus(constants.httpCode.NO_CONTENT);
     })
   }
 

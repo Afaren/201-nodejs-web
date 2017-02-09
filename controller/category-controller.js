@@ -1,6 +1,7 @@
 const Category = require('../model/category');
 const async = require('async');
 const Item = require('../model/item');
+const constants = require('../mixin/constans');
 
 class CategoryController {
 
@@ -16,7 +17,7 @@ class CategoryController {
       if (err) {
         return next(err);
       }
-      return res.status(200).send(result);
+      return res.status(constants.httpCode.OK).send(result);
     });
 
 
@@ -26,12 +27,12 @@ class CategoryController {
     Category.findById(req.params.id)
       .exec((err, doc)=> {
         if (!doc) {
-          return res.sendStatus(404);
+          return res.sendStatus(constants.httpCode.NO_FOUND);
         }
         if (err) {
           return next(err);
         }
-        res.status(200).send(doc);
+        res.status(constants.httpCode.OK).send(doc);
       })
   };
 
@@ -42,7 +43,7 @@ class CategoryController {
       }
       //todo 这里一开始写成了 !doc，习惯性思维了 
       if(doc) {
-        return res.sendStatus(400);
+        return res.sendStatus(constants.httpCode.BAD_REQUEST);
       }
 
       Category.findByIdAndRemove(req.params.id, (err, doc)=> {
@@ -50,9 +51,9 @@ class CategoryController {
           return next(err);
         }
         if (!doc) {
-          return res.sendStatus(404);
+          return res.sendStatus(constants.httpCode.NO_FOUND);
         }
-        res.sendStatus(204);
+        res.sendStatus(constants.httpCode.NO_CONTENT);
       });
       
 
@@ -64,7 +65,7 @@ class CategoryController {
         if (err) {
           return next(err);
         }
-        res.status(201).send(`categories/${doc._id}`)
+        res.status(constants.httpCode.CREATED).send(`categories/${doc._id}`)
       }
     );
   };
@@ -74,7 +75,7 @@ class CategoryController {
       if (err) {
         return next(err);
       }
-      return res.sendStatus(204);
+      return res.sendStatus(constants.httpCode.NO_CONTENT);
     })
   };
 
