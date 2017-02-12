@@ -10,7 +10,7 @@ echo
 
 echo getOne
 curl -X GET \
-     $SERVER/$RESOURCE/587f0f2586653d19297d40c2
+     $SERVER/$RESOURCE/58a00323d61864412b84cc69
 echo
 
 
@@ -18,7 +18,7 @@ echo update
 curl -X PUT \
      -H "Content-Type: application/json" \
      -d '{"name": "test-PUT-2", "price":4}' \
-     $SERVER/$RESOURCE/587f0f2586653d19297d40c2
+     $SERVER/$RESOURCE/58a00323d61864412b84cc69
 echo
 
 
@@ -32,7 +32,7 @@ echo
 
 echo delete
 curl -X DELETE \
-     $SERVER/$RESOURCE/58a00188182d2f3eaf0870bc
+     $SERVER/$RESOURCE/58a00323d61864412b84cc69
 echo
 
 
