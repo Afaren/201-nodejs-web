@@ -9,7 +9,9 @@ class ItemController {
         Item.count(done);
       },
       items: (done)=> {
-        Item.find({}, done)
+        Item.find({})
+          .populate('category')
+          .exec(done)
       }
     }, (err, result) => {
       if (err) {
@@ -20,15 +22,17 @@ class ItemController {
   }
 
   getOne(req, res, next) {
-    Item.findById(req.params.itemId, (err, doc) => {
-      if (!doc) {
-        return res.sendStatus(httpCode.NO_FOUND)
-      }
-      if (err) {
-        return next(err);
-      }
-      return res.status(httpCode.OK).send(doc);
-    })
+    Item.findById(req.params.itemId)
+      .populate('category')
+      .exec((err, doc) => {
+        if (!doc) {
+          return res.sendStatus(httpCode.NO_FOUND)
+        }
+        if (err) {
+          return next(err);
+        }
+        return res.status(httpCode.OK).send(doc);
+      })
   }
 
   update(req, res, next) {
