@@ -1,7 +1,7 @@
 const Category = require('../model/category');
 const async = require('async');
 const Item = require('../model/item');
-const constants = require('../mixin/constans');
+const constants = require('../mixin/constants');
 
 class CategoryController {
 

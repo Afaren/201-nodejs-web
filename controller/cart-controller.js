@@ -3,7 +3,7 @@
  */
 const Cart = require('../model/cart');
 const async = require('async');
-const constants = require('../mixin/constans');
+const constants = require('../mixin/constants');
 
 class CartController {
   getAll(req, res, next) {
