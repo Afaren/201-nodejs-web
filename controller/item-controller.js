@@ -53,7 +53,7 @@ class ItemController {
       if (err) {
         return next(err);
       }
-      return res.status(httpCode.OK).send(`item_url: items/${doc.id}`);
+      return res.status(httpCode.CREATED).send({item_url: `items/${doc.id}`});
     })
   }
 

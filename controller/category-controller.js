@@ -50,7 +50,7 @@ class CategoryController {
       if (err) {
         return next(err);
       }
-      return res.status(httpCode.OK).send(`category_url: categories/${doc.id}`);
+      return res.status(httpCode.CREATED).send({category_url: `categories/${doc.id}`});
     })
   }
 

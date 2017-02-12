@@ -71,7 +71,7 @@ class CartController {
       if (err) {
         return next(err);
       }
-      return res.status(httpCode.OK).send(`cart_url: carts/${doc.id}`);
+      return res.status(httpCode.CREATED).send({cart_url: `carts/${doc.id}`});
     })
   }
 

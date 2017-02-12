@@ -6,7 +6,9 @@
   "scripts": {
     "babel-node": "babel-node",
     "start": "nodemon --exec npm run babel-node -- app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive spec/",
+    "refreshMongo": "node ./util/refresh-util.js"
+
   },
   "author": "",
   "license": "ISC",
@@ -15,14 +17,15 @@
     "body-parser": "^1.16.1",
     "config": "^1.24.0",
     "express": "^4.14.0",
-    "mongoose": "^4.7.6",
-    "async": "^2.1.4"
-
+    "mongoose": "^4.7.6"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-preset-latest": "^6.16.0",
     "body-parser": "^1.16.0",
-    "nodemon": "^1.11.0"
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0",
+    "should": "^11.2.0",
+    "supertest": "^3.0.0"
   }
 }
