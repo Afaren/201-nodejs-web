@@ -1,83 +1,84 @@
 const Category = require('../model/category');
 const async = require('async');
+const httpCode = require('../mixin/constants').httpCode;
 const Item = require('../model/item');
-const constants = require('../mixin/constants');
 
 class CategoryController {
-
   getAll(req, res, next) {
     async.series({
       totalCount: (done) => {
         Category.count(done);
       },
-      categories: (done) => {
+      categorys: (done)=> {
         Category.find({}, done);
       }
     }, (err, result) => {
       if (err) {
         return next(err);
       }
-      return res.status(constants.httpCode.OK).send(result);
+      return res.status(httpCode.OK).send(result);
     });
-
-
-  };
+  }
 
   getOne(req, res, next) {
-    Category.findById(req.params.id)
-      .exec((err, doc)=> {
-        if (!doc) {
-          return res.sendStatus(constants.httpCode.NO_FOUND);
-        }
-        if (err) {
-          return next(err);
-        }
-        res.status(constants.httpCode.OK).send(doc);
-      })
-  };
-
-  delete(req, res, next) {
-    Item.findOne({categoryId: req.params.id}, (err, doc) => {
-      if(err) {
-        return next(err);
+    Category.findById(req.params.categoryId, (err, doc) => {
+      if (!doc) {
+        return res.sendStatus(httpCode.NO_FOUND)
       }
-      //todo 这里一开始写成了 !doc，习惯性思维了 
-      if(doc) {
-        return res.sendStatus(constants.httpCode.BAD_REQUEST);
-      }
-
-      Category.findByIdAndRemove(req.params.id, (err, doc)=> {
-        if (err) {
-          return next(err);
-        }
-        if (!doc) {
-          return res.sendStatus(constants.httpCode.NO_FOUND);
-        }
-        res.sendStatus(constants.httpCode.NO_CONTENT);
-      });
-      
-
-    });
-  };
-
-  create(req, res, next) {
-    new Category(req.body).save((err, doc)=> {
-        if (err) {
-          return next(err);
-        }
-        res.status(constants.httpCode.CREATED).send(`categories/${doc._id}`)
-      }
-    );
-  };
-
-  update(req, res, next) {
-    Category.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
       if (err) {
         return next(err);
       }
-      return res.sendStatus(constants.httpCode.NO_CONTENT);
+      return res.status(httpCode.OK).send(doc);
     })
-  };
+  }
+
+  update(req, res, next) {
+    Category.findByIdAndUpdate(req.params.categoryId, req.body, (err, doc) => {
+      if (!doc) {
+        return res.sendStatus(httpCode.NO_FOUND)
+      }
+      if (err) {
+        return next(err);
+      }
+      return res.sendStatus(httpCode.NO_CONTENT);
+    })
+
+  }
+
+  create(req, res, next) {
+    Category.create(req.body, (err, doc) => {
+      if (err) {
+        return next(err);
+      }
+      return res.status(httpCode.OK).send(`category_url: categories/${doc.id}`);
+    })
+  }
+
+  delete(req, res, next) {
+    const categoryId = req.params.categoryId;
+    async.waterfall([
+      (done) => {
+        Item.findOne({category: categoryId}, done);
+      },
+      (doc, done) => {
+        if (doc) {
+          return done(true, null);
+        }
+        Category.findByIdAndRemove(categoryId, done);
+      }
+    ], (err, doc) => {
+      if (err === true) {
+        return res.sendStatus(httpCode.BAD_REQUEST);
+      }
+      if (!doc) {
+        return res.sendStatus(httpCode.NO_FOUND)
+      }
+      if (err) {
+        return next(err);
+      }
+      return res.sendStatus(httpCode.NO_CONTENT);
+    });
+  }
 
 }
 

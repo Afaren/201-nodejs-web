@@ -1,20 +1,20 @@
 /**
- * Created by afaren on 2/7/17.
+ * Created by afaren on 2/12/17.
  */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const CartSchema = new Schema({
+const cartSchema = new Schema({
   userId: String,
-  items: [{
+  items:[{
     count: Number,
-    itemId: {
-      type: Schema.Types.ObjectId,
+    item: {
+      type: Schema.ObjectId,
       ref: 'Item'
     }
   }]
 });
 
-const CartModel = mongoose.model('Cart', CartSchema);
+const CartModel = mongoose.model('Cart', cartSchema);
 
 module.exports = CartModel;

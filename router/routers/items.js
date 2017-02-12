@@ -1,14 +1,14 @@
-const {Router}= require('express');
+const {Router} = require('express');
 const ItemController = require('../../controller/item-controller');
 
 
-const router = Router();
-const item = new ItemController();
+const router = new Router();
+const itemCtrl = new ItemController();
 
-router.get('/', item.getAll);
-router.get('/:id', item.getOne);
-router.post('/', item.create)
-router.delete('/:id', item.delete)
-router.put('/:id', item.update);
+router.get('/', itemCtrl.getAll);
+router.get('/:itemId', itemCtrl.getOne);
+router.put('/:itemId', itemCtrl.update);
+router.delete('/:itemId', itemCtrl.delete);
+router.post('/', itemCtrl.create);
 
 module.exports = router;

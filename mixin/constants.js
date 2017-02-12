@@ -1,7 +1,7 @@
 /**
  * Created by afaren on 2/9/17.
  */
-const constants = {
+module.exports  = {
   httpCode: {
     OK: 200,
     CREATED: 201,
@@ -11,5 +11,3 @@ const constants = {
     NO_FOUND: 404
   }
 };
-
-module.exports = constants;

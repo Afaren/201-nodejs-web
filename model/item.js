@@ -1,19 +1,18 @@
 /**
- * Created by chenchongfa on 2/7/17.
+ * Created by afaren on 2/12/17.
  */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ItemSchema = new Schema({
-  name: Schema.Types.String,
+const itemSchema = new Schema({
+  name: String,
   price: Number,
-  categoryId: {
-    type: Schema.Types.ObjectId,
+  category: {
+    type: Schema.ObjectId,
     ref: 'Category'
-
   }
 });
 
-const Item = mongoose.model('Item', ItemSchema);
+const ItemModel = mongoose.model('Item', itemSchema);
 
-module.exports = Item;
+module.exports = ItemModel;
