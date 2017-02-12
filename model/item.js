@@ -6,7 +6,11 @@ const Schema = mongoose.Schema;
 
 const itemSchema = new Schema({
   name: String,
-  price: Number
+  price: Number,
+  category: {
+    type: Schema.ObjectId,
+    ref: 'Category'
+  }
 });
 
 const ItemModel = mongoose.model('Item', itemSchema);

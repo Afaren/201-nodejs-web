@@ -9,7 +9,7 @@ class ItemController {
         Item.count(done);
       },
       items: (done)=> {
-        Item.find({}, done);
+        Item.find({}, done)
       }
     }, (err, result) => {
       if (err) {
@@ -32,7 +32,7 @@ class ItemController {
   }
 
   update(req, res, next) {
-    Item.findByIdAndUpdate(req.params.itemId, req.body,  (err, doc) => {
+    Item.findByIdAndUpdate(req.params.itemId, req.body, (err, doc) => {
       if (!doc) {
         return res.sendStatus(httpCode.NO_FOUND)
       }
@@ -50,11 +50,11 @@ class ItemController {
         return next(err);
       }
       return res.status(httpCode.OK).send(`item_url: items/${doc.id}`);
-    } )
+    })
   }
 
   delete(req, res, next) {
-    Item.findByIdAndRemove(req.params.itemId,  (err, doc) => {
+    Item.findByIdAndRemove(req.params.itemId, (err, doc) => {
       if (!doc) {
         return res.sendStatus(httpCode.NO_FOUND)
       }

@@ -10,7 +10,7 @@ echo
 
 echo getOne
 curl -X GET \
-     $SERVER/$RESOURCE/58a00323d61864412b84cc69
+     $SERVER/$RESOURCE/58a00a28a131b74837c20853
 echo
 
 
@@ -25,7 +25,7 @@ echo
 echo create
 curl -X POST \
      -H "Content-Type: application/json" \
-     -d '{"name": "test-POST", "price":33334}' \
+     -d '{"name": "test-POST", "price":33334, "category": "587f0f2586653d19297d40c8"}' \
      $SERVER/$RESOURCE
 echo
 
