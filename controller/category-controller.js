@@ -1,6 +1,7 @@
 const Category = require('../model/category');
 const async = require('async');
 const httpCode = require('../mixin/constants').httpCode;
+const Item = require('../model/item');
 
 class CategoryController {
   getAll(req, res, next) {
@@ -32,7 +33,7 @@ class CategoryController {
   }
 
   update(req, res, next) {
-    Category.findByIdAndUpdate(req.params.categoryId, req.body,  (err, doc) => {
+    Category.findByIdAndUpdate(req.params.categoryId, req.body, (err, doc) => {
       if (!doc) {
         return res.sendStatus(httpCode.NO_FOUND)
       }
@@ -50,11 +51,25 @@ class CategoryController {
         return next(err);
       }
       return res.status(httpCode.OK).send(`category_url: categories/${doc.id}`);
-    } )
+    })
   }
 
   delete(req, res, next) {
-    Category.findByIdAndRemove(req.params.categoryId,  (err, doc) => {
+    const categoryId = req.params.categoryId;
+    async.waterfall([
+      (done) => {
+        Item.findOne({category: categoryId}, done);
+      },
+      (doc, done) => {
+        if (doc) {
+          return done(true, null);
+        }
+        Category.findByIdAndRemove(categoryId, done);
+      }
+    ], (err, doc) => {
+      if (err === true) {
+        return res.sendStatus(httpCode.BAD_REQUEST);
+      }
       if (!doc) {
         return res.sendStatus(httpCode.NO_FOUND)
       }
@@ -62,8 +77,7 @@ class CategoryController {
         return next(err);
       }
       return res.sendStatus(httpCode.NO_CONTENT);
-    })
-
+    });
   }
 
 }

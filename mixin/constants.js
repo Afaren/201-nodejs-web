@@ -5,6 +5,7 @@ module.exports = {
   httpCode: {
     OK: 200,
     NO_FOUND: 404,
-    NO_CONTENT: 204
+    NO_CONTENT: 204,
+    BAD_REQUEST: 400
   }
 };
