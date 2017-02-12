@@ -2,6 +2,16 @@ const Cart = require('../model/cart');
 const async = require('async');
 const httpCode = require('../mixin/constants').httpCode;
 
+
+function toUrl(items) {
+  return items.map(({item, count})=> {
+    return {
+      item_url: `items/${item}`,
+      count
+    }
+  })
+
+}
 class CartController {
   getAll(req, res, next) {
     async.series({
@@ -9,7 +19,16 @@ class CartController {
         Cart.count(done);
       },
       carts: (done)=> {
-        Cart.find({}, done);
+        Cart.find({}, (err, docs) => {
+
+          const carts = docs.map((doc)=> {
+            let cart = doc.toJSON();
+            cart.items = toUrl(cart.items)
+            return cart;
+          });
+
+          done(null, carts);
+        });
       }
     }, (err, result) => {
       if (err) {
@@ -27,12 +46,15 @@ class CartController {
       if (err) {
         return next(err);
       }
-      return res.status(httpCode.OK).send(doc);
+      let cart = doc.toJSON();
+      cart.items = toUrl(cart.items);
+
+      return res.status(httpCode.OK).send(cart);
     })
   }
 
   update(req, res, next) {
-    Cart.findByIdAndUpdate(req.params.cartId, req.body,  (err, doc) => {
+    Cart.findByIdAndUpdate(req.params.cartId, req.body, (err, doc) => {
       if (!doc) {
         return res.sendStatus(httpCode.NO_FOUND)
       }
@@ -50,11 +72,11 @@ class CartController {
         return next(err);
       }
       return res.status(httpCode.OK).send(`cart_url: carts/${doc.id}`);
-    } )
+    })
   }
 
   delete(req, res, next) {
-    Cart.findByIdAndRemove(req.params.cartId,  (err, doc) => {
+    Cart.findByIdAndRemove(req.params.cartId, (err, doc) => {
       if (!doc) {
         return res.sendStatus(httpCode.NO_FOUND)
       }
