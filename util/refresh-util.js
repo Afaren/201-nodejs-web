@@ -30,9 +30,9 @@ module.exports = function refresh(done) {
       modelMap[v].remove(()=> {
         modelMap[v].create(rawData[v], ()=> {
           docs = docs.filter(doc => doc !== v);
-          console.log(`The data of ${v} created`);
+          // console.log(`The data of ${v} created`);
           if (docs.length === 0) {
-            console.log('All data refreshed');
+            // console.log('All data refreshed');
             done();
           }
         });
