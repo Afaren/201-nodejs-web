@@ -7,7 +7,7 @@
     "babel-node": "babel-node",
     "start": "nodemon --exec npm run babel-node -- app.js",
     "test": "mocha --recursive spec/",
-    "refreshMongo": "node ./util/refresh-util.js"
+    "refreshMongo": "node ./util/refresh-mongo.js"
 
   },
   "author": "",

@@ -6,7 +6,7 @@ const app = require('../app');
 const request = supertest(app);
 const sinon = require('sinon')
 const Item = require('../model/item');
-const refresh = require('../util/refresh-mongo');
+const refresh = require('../util/refresh-util');
 
 describe('ItemContronller', () => {
   before((done) => {

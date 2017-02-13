@@ -5,7 +5,7 @@ const app = require('../app');
 const request = supertest(app);
 
 const Cart = require('../model/cart');
-const refresh = require('../util/refresh-mongo');
+const refresh = require('../util/refresh-util');
 
 describe('CartContronller', () => {
   before((done) => {
