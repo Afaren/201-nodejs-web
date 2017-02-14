@@ -29,7 +29,7 @@ describe('CategoryContronller', () => {
         .get('/categories/587f0f2586653d19297d40c8')
         .expect(200)
         .expect((res) => {
-          res.body.should.eql({
+          res.body.should.deepEqual({
             "_id": "587f0f2586653d19297d40c8",
             "name": "文具",
             "__v": 0

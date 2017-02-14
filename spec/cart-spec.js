@@ -27,7 +27,7 @@ describe('CartContronller', () => {
       .get('/carts/587f0f2586653d19297d40c6')
       .expect(200)
       .expect((res) => {
-        res.body.should.eql({
+        res.body.should.deepEqual({
           "_id": "587f0f2586653d19297d40c6",
           "userId": "1",
           "__v": 0,
