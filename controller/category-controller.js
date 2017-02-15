@@ -9,7 +9,7 @@ class CategoryController {
       totalCount: (done) => {
         Category.count(done);
       },
-      categorys: (done)=> {
+      categories: (done)=> {
         Category.find({}, done);
       }
     }, (err, result) => {
